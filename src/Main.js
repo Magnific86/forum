@@ -1,0 +1,40 @@
+import React, { useContext } from 'react'
+import ButtonAdmin from './Buttons/ButtonAdmin'
+import ButtonForm from './Buttons/ButtonForm'
+import Container from './Container'
+import { Context } from './Context'
+import Post from './Post'
+
+export default function Main() {
+    const {list, handleForm, handleAdmin, main, searchText, handleSearchText, filtered, loader} = useContext(Context)
+if(main) {
+    return (
+       <Container>
+        <div className='flex flex-col container mx-auto'>
+         <div className='flex justify-around text-4xl py-8'>
+            <h1>Приветствую</h1>
+            <ButtonForm />
+            <ButtonAdmin />
+        </div>
+        <div className='flex'>
+            <form>
+                <label className='text-4xl text-center py-6' htmlFor='search'>Поиск по названию поста</label>
+                <input className='bg-transparent w-1/3 border-b border-purple-300 mx-auto outline-none my-4'
+                 type="text" id="search" value={searchText} onChange={e => handleSearchText(e)} />
+            </form>
+        </div>
+        <div className='min-h-max'>
+            <ul>
+                {loader === true && <p className='text-5xl text-red-500'>Loading...</p>}
+                {filtered.map(post => 
+                    <li key={post.id}>
+                        <Post post={post} />
+                    </li>
+                    )}
+            </ul>
+        </div>
+        </div>
+       </Container>
+      )
+}
+}
