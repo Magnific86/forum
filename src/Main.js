@@ -14,9 +14,6 @@ import Post from "./Post";
 export default function Main() {
   /* const {css, handleCss} = useContext(CoursesContext) */
   const {
-    list,
-    handleForm,
-    handleAdmin,
     main,
     searchText,
     handleSearchText,
@@ -64,6 +61,7 @@ export default function Main() {
               className="bg-transparent w-1/3 border-b border-purple-300 mx-auto outline-none my-4"
               type="text"
               id="search"
+              placeholder="Поиск..."
               value={searchText}
               onChange={(e) => handleSearchText(e)}
             />
@@ -71,11 +69,12 @@ export default function Main() {
               {loader === true && (
                 <p className="text-5xl text-red-500">Loading...</p>
               )}
-              {filtered.map((post) => (
+              {filtered && filtered.map((post) => (
                 <li key={post.id}>
                   <Post post={post} />
                 </li>
               ))}
+              {!filtered.length && <p>Посты не найдены!</p>}
             </ul>
           </div>
         </div>

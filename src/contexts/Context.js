@@ -1,19 +1,19 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useMemo } from "react";
 
 const Context = createContext();
 
 function Provider({ children }) {
   const [list, setList] = useState([]);
-  const [form, setForm] = useState(false)
+  const [form, setForm] = useState(false);
   const [admin, setAdmin] = useState(false);
   const [loader, setLoader] = useState(true);
-  const [searchText, setSearchText] = useState("")
-  const [info, setInfo] = useState(false)
-  const [main, setMain] = useState(true)
-  const [theme, setTheme] = useState("dark")
+  const [searchText, setSearchText] = useState("");
+  const [info, setInfo] = useState(false);
+  const [main, setMain] = useState(true);
+  const [theme, setTheme] = useState("dark");
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-  const [selector, setSelector] = useState("")
+  const [selector, setSelector] = useState("");
 
   function getPosts() {
     fetch("https://jsonplaceholder.typicode.com/posts")
@@ -22,64 +22,66 @@ function Provider({ children }) {
   }
 
   useEffect(() => {
-    getPosts()
-    setLoader(false)
-  }, [])
-
+    getPosts();
+    setLoader(false);
+  }, []);
 
   function handleSelector(e) {
-    setSelector(e.target.value)
+    setSelector(e.target.value);
   }
 
-  const filtered = list.filter((post) => {
-    return post.title.toLowerCase().includes(searchText.toLocaleLowerCase());
-  });
+  const filtered = useMemo(() => {
+    return list.filter((post) => {
+      console.log("Новый фильтр");
+      return post.title.toLowerCase().includes(searchText.toLocaleLowerCase());
+    });
+  }, [list, searchText]);
 
   useEffect(() => {
-    if(theme === "dark") {
-        document.documentElement.classList.add("dark")
-    } else if(theme === "light") {
-        document.documentElement.classList.remove("dark")
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else if (theme === "light") {
+      document.documentElement.classList.remove("dark");
     }
-  }, [theme])
+  }, [theme]);
 
   function handleTheme() {
-    setTheme(theme === "dark" ? "light" : "dark")
+    setTheme(theme === "dark" ? "light" : "dark");
   }
 
-useEffect(() => {
-    if(admin) {
-        document.title = "Hello, admin!"
-    } else if(form) {
-        document.title = "Fill in form"
-    } else if(!admin+form) {
-        document.title = "Posts"
+  useEffect(() => {
+    if (admin) {
+      document.title = "Hello, admin!";
+    } else if (form) {
+      document.title = "Fill in form";
+    } else if (!admin + form) {
+      document.title = "Posts";
     }
-}, [admin, form])
+  }, [admin, form]);
 
   function handleAdmin() {
-    setAdmin(true)
-    setForm(false)
-    setMain(false)
-    setInfo(false)
+    setAdmin(true);
+    setForm(false);
+    setMain(false);
+    setInfo(false);
   }
 
   function handleForm() {
-    setForm(true)
-    setAdmin(false)
-    setMain(false)
-    setInfo(false)
+    setForm(true);
+    setAdmin(false);
+    setMain(false);
+    setInfo(false);
   }
 
   function handleMain() {
-    setMain(true)
-    setAdmin(false)
-    setForm(false)
-    setInfo(false)
+    setMain(true);
+    setAdmin(false);
+    setForm(false);
+    setInfo(false);
   }
 
   function handleInfo() {
-    setInfo(!info)
+    setInfo(!info);
   }
 
   function handleTitle(e) {
@@ -91,7 +93,7 @@ useEffect(() => {
   }
 
   function handleSearchText(e) {
-    setSearchText(e.target.value)
+    setSearchText(e.target.value);
   }
 
   function handleSubmit(e) {
@@ -100,12 +102,36 @@ useEffect(() => {
     setTitle("");
     setBody("");
   }
-  console.log(filtered);
 
-  return <Context.Provider value={{
-    admin, form, title, body, handleAdmin, handleForm, handleTitle, handleBody, handleSubmit, handleMain, main, theme, handleTheme,
-    info, handleInfo, searchText, handleSearchText, filtered, loader, selector, handleSelector
-  }}>{children}</Context.Provider>;
+  return (
+    <Context.Provider
+      value={{
+        admin,
+        form,
+        title,
+        body,
+        handleAdmin,
+        handleForm,
+        handleTitle,
+        handleBody,
+        handleSubmit,
+        handleMain,
+        main,
+        theme,
+        handleTheme,
+        info,
+        handleInfo,
+        searchText,
+        handleSearchText,
+        filtered,
+        loader,
+        selector,
+        handleSelector,
+      }}
+    >
+      {children}
+    </Context.Provider>
+  );
 }
 
 export { Context, Provider };
