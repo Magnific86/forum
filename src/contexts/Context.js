@@ -13,7 +13,7 @@ function Provider({ children }) {
   const [theme, setTheme] = useState("dark")
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-
+  const [selector, setSelector] = useState("")
 
   function getPosts() {
     fetch("https://jsonplaceholder.typicode.com/posts")
@@ -26,6 +26,10 @@ function Provider({ children }) {
     setLoader(false)
   }, [])
 
+
+  function handleSelector(e) {
+    setSelector(e.target.value)
+  }
 
   const filtered = list.filter((post) => {
     return post.title.toLowerCase().includes(searchText.toLocaleLowerCase());
@@ -100,7 +104,7 @@ useEffect(() => {
 
   return <Context.Provider value={{
     admin, form, title, body, handleAdmin, handleForm, handleTitle, handleBody, handleSubmit, handleMain, main, theme, handleTheme,
-    info, handleInfo, searchText, handleSearchText, filtered, loader,
+    info, handleInfo, searchText, handleSearchText, filtered, loader, selector, handleSelector
   }}>{children}</Context.Provider>;
 }
 
