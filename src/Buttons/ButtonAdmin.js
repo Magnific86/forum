@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Context } from "../Context";
+import  { useContext } from "react";
+import { Context } from "../contexts/Context";
 
 export default function ButtonAdmin() {
 const {handleAdmin, main} = useContext(Context)

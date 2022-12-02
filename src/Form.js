@@ -1,7 +1,6 @@
-import React, { useContext } from "react";
-import ButtonMain from "./Buttons/ButtonMain";
+import  { useContext } from "react";
 import Container from "./Container";
-import { Context } from "./Context";
+import { Context } from "./contexts/Context";
 
 export default function Form() {
   const { title, body, handleTitle, handleBody, form, handleSubmit } =

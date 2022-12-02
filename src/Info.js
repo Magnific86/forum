@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Context } from "./Context";
+import  { useContext } from "react";
+import { Context } from "./contexts/Context";
 
 export default function Info() {
   const { info } = useContext(Context);
@@ -9,8 +9,7 @@ export default function Info() {
       <>
         <div className="modal">
           <p>
-            Lorem React Полный курс от А до Я. Рассмотрим основные концепции и
-            разработаем функционал, который встречается в каждом приложении
+           Хочу сделать массив постов с темой и ответом, нде можно будет добавлять по категориям
           </p>
         </div>
       </>
